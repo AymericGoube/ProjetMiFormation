@@ -46,7 +46,10 @@ body{
   background-repeat: no-repeat;
   position: relative;
 }
+.monde p{
+  text-align: center;
 
+}
 .persoJoueur{
   height: 40px;
   width: 40px;
@@ -83,4 +86,11 @@ body{
   position: absolute;
   top: 530px;
   left: 870px;
+}
+
+img{
+  width: 50px;
+  height: 50px;
+  float: right;
+
 }

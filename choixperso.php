@@ -1,3 +1,16 @@
+<?php
+try{
+  // connexion base de donnée
+  $bdd = new PDO('mysql:host=localhost;dbname=mario;charset=utf8','root','simplon',array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+}
+catch(Exception $e)
+{
+  die('Erreur : '.$e->getMessage());
+}
+session_start();
+$_SESSION['name'] = $_POST['name'];
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +21,9 @@
 </head>
 <body>
   <div class="choixperso">
+    <div class="">
+
+    </div>
     <a href="Monde.php" class="choix1">
       <div class="perso1">
 
