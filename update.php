@@ -10,20 +10,22 @@ catch(Exception $e)
 
 session_start();
 
-if (isset($_SESSION['maj'])) {
-  $requete = $bdd->prepare('UPDATE marioUser SET (pseudoUser) = test');
-  $requete->execute();
-  }
 
-  // if (isset($_SESSION['delete'])) {
-  //   $requete = $bdd->prepare('DELETE marioUser SET (pseudoUser) VALUES :name ');
-  //   $requete->execute(array(
-  //     'name' => $_SESSION['name']));
-  //   }
+?>
+<form class="upt" action="update.php" method="post">
+  <input type="text" name="newPseudo" placeholder="Nouveau Pseudo">
+  <button type="submit" name="maj">Changez Votre Pseudo</button>
 
-    ?>
+  <!-- <button type="submit" name="delete">Supprimez votre compte</button> -->
+</form>
+<?php
+$newpseudo = $_POST['newPseudo'];
+$oldpseudo = $_SESSION['name'];
+echo $oldpseudo;
+$requete = $bdd->prepare('UPDATE marioUser SET pseudoUser = :name WHERE pseudoUser = :oldpseudo');
+$requete->execute(array(
+  'name' => $newpseudo,
+  'oldpseudo' => $oldpseudo
+));
 
-    <input type="text" name="name" placeholder="Nouveau Pseudo">
-    <button type="submit" name="maj">Changez Votre Pseudo</button>
-
-    <button type="submit" name="delete">Supprimez votre compte</button>
+ ?>

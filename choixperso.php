@@ -9,6 +9,9 @@ catch(Exception $e)
 }
 session_start();
 $_SESSION['name'] = $_POST['name'];
+
+$requete = $bdd->prepare('INSERT INTO marioUser(pseudoUser) VALUES(:name)');
+$requete->execute(array('name' => $_POST['name']));
 ?>
 
 <!DOCTYPE html>

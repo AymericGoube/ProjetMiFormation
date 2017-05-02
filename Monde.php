@@ -25,7 +25,7 @@ session_start();
       <?php
       echo "Bienvenue ".$_SESSION['name'];
       ?>
-      <!-- <a href="update.php"><img class="img" src="image/param.png" alt="paramètres"></a> -->
+      <a href="update.php"><img class="img" src="image/param.png" alt="paramètres"></a>
     </p>
     <div class="persoJoueur">
     </div>
