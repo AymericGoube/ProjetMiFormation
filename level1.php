@@ -11,5 +11,5 @@
   <h1>level 1</h1>
   <div id="lvl1"></div>
 </body>
-<script src="js/phaser.js" charset="utf-8"></script>
+<script src="js/scriptlevel1.js" charset="utf-8"></script>
 </html>

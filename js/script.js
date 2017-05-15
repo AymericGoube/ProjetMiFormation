@@ -54,13 +54,13 @@ $(document).keydown(function(e){
   }
   else if (e.keyCode === 13) {
     if (((persoJoueurX > md1X) && (persoJoueurX < (md1X+66)) && (persoJoueurY > md1Y) && (persoJoueurY < (md1Y+150))) ){
-      window.location.href ="http://localhost/travaux/JeuProjetMiFormation/level2.php";
+      window.location.href ="http://localhost/travaux/JeuProjetMiFormation/level1.php";
     }
     else if (((persoJoueurX > md2X) && (persoJoueurX < (md2X+66)) && (persoJoueurY > md2Y) && (persoJoueurY < (md2Y+150))) ){
-      window.location.href ="http://localhost/travaux/JeuProjetMiFormation/choixperso.php";
+      window.location.href ="http://localhost/travaux/JeuProjetMiFormation/level2.php";
     }
     else if (((persoJoueurX > md3X) && (persoJoueurX < (md3X+66)) && (persoJoueurY > md3Y) && (persoJoueurY < (md3Y+150))) ){
-      window.location.href ="http://localhost/travaux/JeuProjetMiFormation/choixperso.php";
+      window.location.href ="http://localhost/travaux/JeuProjetMiFormation/level3.php";
     }
   }
 });

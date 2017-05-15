@@ -1,227 +1,145 @@
-// ANCIEN JEU
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-// var game = new Phaser.Game(1200, 650, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-//
-// function preload() {
-// game.load.spritesheet('mario', 'image/dude.png', 32, 48);
-// game.load.image('sky','image/backgrd4.png');
-// game.load.image('pipe','image/tube2.png');
-// game.load.image('coin', 'image/diamond.png');
-// }
-//
-// var player;
-// var platforms;
-// var coin;
-// var coins;
-// var score = 0;
-// var scoreText;
-// var highscore = sessionStorage.getItem("highscore");
-// var stateText;
-// function create() {
-//
-//   game.physics.startSystem(Phaser.Physics.ARCADE);
-//   game.add.tileSprite(0, 0, 9000, 950, 'sky');
-//
-//   // platforms = game.add.group();
-//   // platforms.enableBody = true;
-//   // var tuyau = platforms.create(400, 350,'pipe');
-//   // tuyau.body.immovable = true;
-//   // tuyau = platforms.create(600, 500, 'pipe');
-//   // tuyau.body.immovable = true;
-//
-//   game.world.setBounds(0, 0, 9000, 650);
-// player = game.add.sprite(32, game.world.height - 400, 'mario');
-//
-// game.physics.arcade.enable(player);
-// player.body.gravity.y = 1200;
-// player.body.collideWorldBounds = true;
-// cursors = game.input.keyboard.createCursorKeys();
-// game.camera.follow(player);
-//
-//
-//
-//   // var coin = game.add.sprite(400,200, 'coin');
-//   // var tourne = coin.animations.add('tourne');
-//   // coin.animations.play('tourne',30,true);
-//
-// coins = game.add.group();
-// coins.enableBody = true;
-// for (var i = 2; i < 22; i++)
-// {
-//   let hauteur = Math.random()*550;
-//   var coin = coins.create(i * 300, hauteur, 'coin');
-//   coin.checkWorldBounds = true;
-//   coin.events.onOutOfBounds.add(coinOut, this);
-//   // var tourne = coin.animations.add('tourne');
-//   // coin.animations.play('tourne',30,true);
-// }
-// scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000'});
-//   highscoreText = game.add.text(200, 16, 'Highscore:'+ highscore, { fontSize: '32px', fill: '#000'});
-//   // stateText = game.add.text(600,350,'', { font: '84px Arial', fill: '#fff' });
-//   // stateText.anchor.setTo(0.5, 0.5);
-//   // stateText.visible = false;
-//   // stateText.fixedToCamera = true;
-//   scoreText.fixedToCamera = true;
-//   highscoreText.fixedToCamera = true;
-// }
-// function coinOut(coin){
-//   player.kill();
-//   // stateText.text="GAME OVER \n CLICK TO RESTART";
-//   // stateText.visible = true;
-//   game.input.onTap.addOnce(restart,this);
-//   if (score > highscore) {
-//     sessionStorage.setItem("highscore",score);
-//   }
-// }
-// function update() {
-//
-//   player.body.velocity.x = 250;
-//   game.physics.arcade.collide(player, platforms);
-//   game.physics.arcade.overlap(player, coins, collectCoin, null, this);
-//   if (cursors.up.isDown)
-//   {
-//     player.body.velocity.y = -300;
-//   }
-//
-// }
-//
-// function collectCoin (player, coin) {
-//   // Kill la pièce
-//   coin.kill();
-//
-//   //  Update le score
-//   score += 10;
-//   scoreText.text = 'Score: ' + score;
-//   if (coins.total === 0) {
-//     alert("Bravo, votre score est de " + score);
-//     sessionStorage.setItem("highscore",score);
-//   }
-//   // else if (coins.outOfBounds === true) {
-//   //   alert("perdu");
-//   // }
-// }
-//
-// function restart(pointer){
-//   player.revive();
-//
-//   coin.callAll('revive');
-//   // stateText.visible = false;
-// }
+function preload() {
+  game.load.image('sky', 'image/level1.png');
+  game.load.image('ground', 'image/ground.png');
+  game.load.image('star', 'image/star.png');
+  game.load.spritesheet('mario', 'image/mario2.png', 26,46);
+}
 
-
-var mainState = {
-  preload: function() {
-    game.load.image('mario', 'image/marioGRAND.png');
-    game.load.image('coin', 'image/diamond.png');
-    game.load.image('tuyau1', 'image/tube1.png');
-    game.load.image('tuyau2', 'image/tube2.png');
-    game.load.image('buttonquit', 'image/buttonquit.png');
-  },
-  create: function() {
-    game.stage.backgroundColor = '#71c5cf';
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-    player = game.add.sprite(30, game.world.height - 400, 'mario');
-     player.scale.setTo(0.04, 0.04);
-
-    game.physics.arcade.enable(player);
-    player.body.gravity.y = 1200;
-    cursors = game.input.keyboard.createCursorKeys();
-    game.camera.follow(player);
-
-    cursors = game.input.keyboard.createCursorKeys();
-    cursors.up.onDown.add(this.jump, this);
-    var timer = game.time.events.loop(1500, this.addCoin,this);
-    coins = game.add.group();
-    coins.enableBody = true;
-    let hauteur = Math.random()*200;
-    var coin = coins.create(650, hauteur - 250, 'tuyau1');
-    var coin2 = coins.create(650, hauteur + 200, 'tuyau2');
-    game.physics.arcade.enable(coin,coin2);
-    coin.body.velocity.x = -200;
-    coin.checkWorldBounds = true;
-    coin.onOutOfBoundskill = true;
-    coin2.body.velocity.x = -200;
-    coin2.checkWorldBounds = true;
-    coin2.onOutOfBoundskill = true;
-    scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000'});
-    highscoreText = game.add.text(200, 16, 'Highscore:'+ highscore, { fontSize: '32px', fill: '#000'});
-    Quitgame = game.add.button(630, 330, 'buttonquit',function(){window.location.href = ("http://localhost/travaux/JeuProjetMiFormation/Monde.php")});
-    Quitgame.width = 50;
-    Quitgame.height = 50;
-    pause = game.add.text(500, 16, 'Pause', { fontSize: '32px', fill: '#000'});
-    pause.inputEnabled = true;
-    pause.events.onInputUp.add(function () {
-      // When the paus button is pressed, we pause the game
-      game.paused = true;
-      unpause = game.add.text(250, 150, 'Reprendre', { font: '50px Arial', fill: '#000' });
-
-    });
-
-    game.input.onDown.add(unpause, self);
-    function unpause(event){
-      if (game.paused) {
-        unpause.destroy();
-        game.paused = false;
-      }
-
-    }
-  },
-  addCoin: function(){
-    let hauteur = Math.random()*100;
-    var coin = coins.create(650, hauteur - 250, 'tuyau1');
-        var coin2 = coins.create(650, hauteur + 200, 'tuyau2');
-    game.physics.arcade.enable(coin,coin2);
-    coin.body.velocity.x = -200;
-    coin.checkWorldBounds = true;
-    coin.onOutOfBoundskill = true;
-    coin2.body.velocity.x = -200;
-    coin2.checkWorldBounds = true;
-    coin2.onOutOfBoundskill = true;
-    score += 10;
-    scoreText.text = 'Score: ' + score;
-  },
-
-
-  update: function() {
-    // This function is called 60 times per second
-    // It contains the game's logic
-    game.physics.arcade.overlap(player, coins, this.collectCoin, null,this);
-    if (score > highscore) {
-      localStorage.setItem("highscore",score);
-    }
-    if (player.body.y < 0 || player.body.y > 650)
-    this.restartGame();
-  },
-  collectCoin: function (player, coin) {
-    // Kill la pièce
-    player.kill();
-    this.restartGame();
-  },
-  jump: function() {
-    player.body.velocity.y = -350;
-  },
-  // coinOut: function(coin){
-  //   //  Update le score
-  //   console.log("salut");
-  //   score += 10;
-  //   scoreText.text = 'Score: ' + score;
-  // },
-  restartGame: function() {
-    // Start the 'main' state, which restarts the game
-    game.state.start('main');
-    score = 0;
-  },
-};
-
-// Initialize Phaser, and create a 400px by 490px game
-var game = new Phaser.Game(700, 400);
+var platforms;
+var player;
 var score = 0;
 var scoreText;
-var pause;
-var Quitgame;
-var highscore = localStorage.getItem("highscore");
-// Add the 'mainState' and call it 'main'
-game.state.add('main', mainState);
 
-// Start the state to actually start the game
-game.state.start('main');
+function create() {
+
+  //  We're going to be using physics, so enable the Arcade Physics system
+  game.physics.startSystem(Phaser.Physics.ARCADE);
+
+  //background du niveau
+  game.add.sprite(0, 0, 'sky');
+
+  //  The platforms group contains the ground and the 2 ledges we can jump on
+  platforms = game.add.group();
+
+  //  We will enable physics for any object that is created in this group
+  platforms.enableBody = true;
+
+  // Création de la plateforme
+  var ground = platforms.create(0, game.world.height - 88, 'ground');
+
+  //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+  ground.scale.setTo(10, 2);
+
+  //  This stops it from falling away when you jump on it
+  ground.body.immovable = true;
+
+  //  Now let's create two ledges
+  var ledge = platforms.create(500, 350, 'ground');
+  ledge.scale.setTo(6, 0.8);
+
+  ledge.body.immovable = true;
+
+  ledge = platforms.create(-180, 250, 'ground');
+  ledge.scale.setTo(6, 0.8);
+  ledge.body.immovable = true;
+
+  var ledge = platforms.create(550, 100, 'ground');
+  ledge.scale.setTo(6, 0.8);
+
+  ledge.body.immovable = true;
+
+  // The player and its settings
+  player = game.add.sprite(32, game.world.height - 150, 'mario');
+
+  //  We need to enable physics on the player
+  game.physics.arcade.enable(player);
+
+  //  Player physics properties. Give the little guy a slight bounce.
+  player.body.bounce.y = 0.2;
+  player.body.gravity.y = 300;
+  player.body.collideWorldBounds = true;
+
+  //  Our two animations, walking left and right.
+  player.animations.add('left', [0, 1, 2, 3], 10, true);
+  player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+  player.body.gravity.y = 300;
+
+  stars = game.add.group();
+
+  stars.enableBody = true;
+
+  //  Here we'll create 12 of them evenly spaced apart
+  for (var i = 0; i < 12; i++)
+  {
+    //  Create a star inside of the 'stars' group
+    var star = stars.create(i * 70, 0, 'star');
+
+    //  Let gravity do its thing
+    star.body.gravity.y =800;
+
+    //  This just gives each star a slightly random bounce value
+    star.body.bounce.y = 0.4 + Math.random() * 0.2;
+  }
+  scoreText = game.add.text(16, 16,'score : 0', { fontSize: '32px', fill: '#000' });
+
+
+}
+
+function update() {
+  //  Collide the player and the stars with the platforms
+  var hitPlatform = game.physics.arcade.collide(player, platforms);
+
+  cursors = game.input.keyboard.createCursorKeys();
+
+  //  Reset the players velocity (movement)
+  player.body.velocity.x = 0;
+
+  if (cursors.left.isDown)
+  {
+    //  Move to the left
+    player.body.velocity.x = -150;
+
+    player.animations.play('left');
+  }
+  else if (cursors.right.isDown)
+  {
+    //  Move to the right
+    player.body.velocity.x = 150;
+
+    player.animations.play('right');
+  }
+  else
+  {
+    //  Stand still
+    player.animations.stop();
+
+    player.frame = 4;
+  }
+
+  //  Allow the player to jump if they are touching the ground.
+  if (cursors.up.isDown && player.body.touching.down && hitPlatform)
+  {
+    player.body.velocity.y = -350;
+  }
+
+  game.physics.arcade.collide(stars, platforms);
+  game.physics.arcade.overlap(player, stars, collectStar, null, this);
+
+
+}
+
+
+function collectStar (player, star) {
+
+  // Removes the star from the screen
+  star.kill();
+  score += 10;
+  scoreText.text ='score:'+ score;
+
+  if (stars.total === 0) {
+    alert("Vous avez passé le niveau 1 Bravo!!!");
+  }
+}
